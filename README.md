@@ -1,0 +1,2 @@
+# addDoubleBarlineToMusicalStructure
+Sibelius plugin
