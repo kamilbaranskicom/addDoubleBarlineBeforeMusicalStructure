@@ -1,0 +1,70 @@
+//Add Double Barline to every Musical Structure text
+//double check the Musical Structure bar parent
+//(as they could be on previous bar"s 5th beat in 4/4 ;) ).
+//
+//(c) 2020.09.10 kamilbaranski.com
+//normal disclaimers of liability apply.
+
+debug=false;
+dontMakeAnyChanges=false;
+
+
+
+thisScore=Sibelius.ActiveScore;
+systemStaff=thisScore.SystemStaff;
+countChanges=0;
+
+for each SystemTextItem text in systemStaff {
+	if (text.StyleId="text.system.structure") {
+		barNumber=text.ParentBar.BarNumber;
+		if (barNumber>1) {
+			previousBar=systemStaff.NthBar(barNumber-1);
+			isFoundSpecialBarline = false;
+
+			for each SpecialBarline specialBarline in previousBar {
+				if ((not(specialBarline.BarlineInternalType=SpecialBarlineStartRepeat)) and
+					(not(specialBarline.BarlineInternalType=SpecialBarlineBetweenStaves))) {
+					//there might be more specialBarlines in a bar
+					//StartRepeat is on the beginning of the bar (which doesn"t matter for us)
+					//BetweenStaves should also doesn"t matter
+					//(potentially todo: check if these assumptions are OK)
+					isFoundSpecialBarline = true;
+					foundSpecialBarline = specialBarline;
+				}
+			}
+
+			letsChangeBarline=false;
+			if (isFoundSpecialBarline) {
+				type=foundSpecialBarline.BarlineInternalType;
+				if (
+					(type=SpecialBarlineStartRepeat) or
+					(type=SpecialBarlineDashed) or
+					(type=SpecialBarlineNormal) or
+					(type=SpecialBarlineShort)
+				) {
+					letsChangeBarline=true;
+				}
+			} else {
+				letsChangeBarline=true;
+			}
+
+			if (debug) {
+				Sibelius.MessageBox(
+					"Bar number: " & barNumber &
+					"\nMusical structure: " & text.Text &
+					"\nPrevious barline: " & type &
+					"\nChange barline: " & letsChangeBarline
+				);
+			};
+
+			if (letsChangeBarline) {
+				if (not(dontMakeAnyChanges)) {
+					previousBar.AddSpecialBarline(SpecialBarlineDouble);
+				}
+				countChanges=countChanges+1;
+			}
+		}
+	}
+}
+
+Sibelius.MessageBox("Changed barlines " & countChanges & " times. Thank you!");
