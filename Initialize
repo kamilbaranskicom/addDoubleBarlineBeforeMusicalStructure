@@ -1,1 +1,1 @@
-AddToPluginsMenu("Add Double Barline to Musical Structure","Run"); 
+AddToPluginsMenu("Add Double Barline before Musical Structure","Run"); 
