@@ -1,9 +1,14 @@
-//Add Double Barline to every Musical Structure text
-//double check the Musical Structure bar parent
-//(as they could be on previous bar"s 5th beat in 4/4 ;) ).
-//
-//(c) 2020.09.10 kamilbaranski.com
-//normal disclaimers of liability apply.
+/**
+ * Add Double Barline before every Musical Structure
+ * (except for new parts starting right after special barline - End Repeat, Final, etc)
+ *
+ * double check the Musical Structure bar parent
+ * (as they could be on previous bar"s 5th beat in 4/4 ;) ).
+ *
+ * v: 1.00, (c) 2020.09.10 kamilbaranski.com
+ *
+ * normal disclaimers of liability apply.
+ */
 
 debug=false;
 dontMakeAnyChanges=false;
