@@ -1,2 +1,2 @@
 # addDoubleBarlineToMusicalStructure
-Sibelius plugin
+[Sibelius](https://www.avid.com/sibelius) plugin
